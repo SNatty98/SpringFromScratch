@@ -41,17 +41,20 @@ public class CategoryService implements  ICategoryService{
     }
 
     @Override
-    public void deleteCategoryById(Category category) {
-        categoryRepository.findById(category.getId())
+    public void deleteCategoryById(Long id) {
+        categoryRepository.findById(id)
                 .ifPresentOrElse(categoryRepository::delete,
                         () -> {throw new ResourceNotFoundException("Category does not exist.");});
     }
 
     @Override
     public Category updateCategory(Category category, Long id) {
-        return Optional.ofNullable(getCategoryById(id)).map(oldCategory -> {
-            oldCategory.setName(category.getName());
-            return categoryRepository.save(oldCategory);
-        }).orElseThrow(() -> new ResourceNotFoundException("Category does not exist."));
+        return Optional.ofNullable(getCategoryById(id))
+                .map(oldCategory ->
+                {
+                    oldCategory.setName(category.getName());
+                    return categoryRepository.save(oldCategory);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Category does not exist."));
     }
 }
