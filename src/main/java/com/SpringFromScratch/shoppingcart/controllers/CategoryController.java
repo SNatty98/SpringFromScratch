@@ -41,10 +41,10 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/category/{id}/category")
-    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long id) {
+    @GetMapping("/category/{categoryId}/category")
+    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long categoryId) {
         try {
-            Category category = categoryService.getCategoryById(id);
+            Category category = categoryService.getCategoryById(categoryId);
             return ResponseEntity.ok(new ApiResponse("Category found", category));
         } catch(ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)

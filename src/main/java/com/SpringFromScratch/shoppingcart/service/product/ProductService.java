@@ -1,6 +1,6 @@
 package com.SpringFromScratch.shoppingcart.service.product;
 
-import com.SpringFromScratch.shoppingcart.exceptions.ProductNotFoundException;
+import com.SpringFromScratch.shoppingcart.exceptions.ResourceNotFoundException;
 import com.SpringFromScratch.shoppingcart.model.Category;
 import com.SpringFromScratch.shoppingcart.model.Product;
 import com.SpringFromScratch.shoppingcart.repository.CategoryRepository;
@@ -50,13 +50,13 @@ public class ProductService implements IProductService {
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found."));
     }
 
     @Override
     public void deleteProductById(Long id) {
         productRepository.findById(id).ifPresentOrElse(productRepository::delete,
-                () -> {throw new ProductNotFoundException("Product not found.");});
+                () -> {throw new ResourceNotFoundException("Product not found.");});
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ProductService implements IProductService {
         return productRepository.findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct, request))
                 .map(productRepository::save)
-                .orElseThrow(() -> new ProductNotFoundException("Product does not exist."));
+                .orElseThrow(() -> new ResourceNotFoundException("Product does not exist."));
     }
 
     private Product updateExistingProduct(Product existingProduct, UpdateProductRequest request) {
@@ -113,6 +113,6 @@ public class ProductService implements IProductService {
 
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
-        return productRepository.countByBrandAndName();
+        return productRepository.countByBrandAndName(brand, name);
     }
 }
