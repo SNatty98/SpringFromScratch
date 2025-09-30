@@ -1,5 +1,6 @@
 package com.SpringFromScratch.shoppingcart.service.product;
 
+import com.SpringFromScratch.shoppingcart.dto.ProductDto;
 import com.SpringFromScratch.shoppingcart.model.Product;
 import com.SpringFromScratch.shoppingcart.requests.AddProductRequest;
 import com.SpringFromScratch.shoppingcart.requests.UpdateProductRequest;
@@ -18,4 +19,6 @@ public interface IProductService {
     List<Product> getProductsByName(String name);
     List<Product> getProductsByBrandAndName(String brand, String name);
     Long countProductsByBrandAndName(String brand, String name);
+    ProductDto convertToDto(Product product);
+    List<ProductDto> getConvertedProducts(List<Product> products);
 }

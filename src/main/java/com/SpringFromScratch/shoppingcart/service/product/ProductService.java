@@ -1,13 +1,18 @@
 package com.SpringFromScratch.shoppingcart.service.product;
 
+import com.SpringFromScratch.shoppingcart.dto.ImageDto;
+import com.SpringFromScratch.shoppingcart.dto.ProductDto;
 import com.SpringFromScratch.shoppingcart.exceptions.ResourceNotFoundException;
 import com.SpringFromScratch.shoppingcart.model.Category;
+import com.SpringFromScratch.shoppingcart.model.Image;
 import com.SpringFromScratch.shoppingcart.model.Product;
 import com.SpringFromScratch.shoppingcart.repository.CategoryRepository;
+import com.SpringFromScratch.shoppingcart.repository.ImageRepository;
 import com.SpringFromScratch.shoppingcart.repository.ProductRepository;
 import com.SpringFromScratch.shoppingcart.requests.AddProductRequest;
 import com.SpringFromScratch.shoppingcart.requests.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +24,8 @@ public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageRepository imageRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Product addProduct(AddProductRequest request) {
@@ -114,5 +121,21 @@ public class ProductService implements IProductService {
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand, name);
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDtos = images.stream()
+                .map(image -> modelMapper.map(images, ImageDto.class))
+                .toList();
+        productDto.setImageList(imageDtos);
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return products.stream().map(this::convertToDto).toList();
     }
 }
