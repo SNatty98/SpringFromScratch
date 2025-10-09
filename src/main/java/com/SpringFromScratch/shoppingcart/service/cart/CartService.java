@@ -37,7 +37,7 @@ public class CartService implements  ICartService{
     public BigDecimal getTotalPrice(Long id) {
         Cart cart = getCart(id);
         return cart.getCartItemSet().stream()
-                .map(CartItem::getTotalPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(CartItem::getTotalPrice) // Extract each items totalPrice
+                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum them
     }
 }
