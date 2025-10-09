@@ -47,10 +47,7 @@ public class CartItemService implements ICartItemService{
     @Override
     public void removeItemFromCart(Long cartId, Long productId) {
         Cart cart = cartService.getCart(cartId);
-        CartItem cartItem = cart.getCartItemSet()
-                .stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
-                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Product not found."));
+        CartItem cartItem = getCartItem(cartId, productId);
 
         cart.removeItem(cartItem);
         cartRepository.save(cart);
@@ -59,10 +56,7 @@ public class CartItemService implements ICartItemService{
     @Override
     public void updateItemQuantity(Long cartId, Long productId, int quantity) {
         Cart cart = cartService.getCart(cartId);
-        CartItem cartItem = cart.getCartItemSet()
-                .stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
-                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Product not found."));
+        CartItem cartItem = getCartItem(cartId, productId);
 
         cartItem.setQuantity(quantity);
         cartItem.setUnitPrice(cartItem.getProduct().getPrice());
@@ -74,5 +68,14 @@ public class CartItemService implements ICartItemService{
                 .reduce(BigDecimal.ZERO ,BigDecimal::add);
         cart.setTotalAmount(totalAmount);
         cartItemRepository.save(cartItem);
+    }
+
+    @Override
+    public CartItem getCartItem(Long cartId, Long productId) {
+        Cart cart = cartService.getCart(cartId);
+        return cart.getCartItemSet()
+                .stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Product not found."));
     }
 }
