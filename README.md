@@ -4,7 +4,7 @@ A RESTful e-commerce shopping cart API built with Spring Boot and MySQL. This po
 # Features
 - Product catalog with search and filtering (by name, brand, category)
 - Category management with duplicate prevention
-- Shopping cart operations (add, update, remove items)
+- Shopping cart CRUD operations (add, update, remove items)
 - Product image upload and storage
 - Automatic price calculations and inventory tracking
 - Clean API responses with custom exception handling
@@ -20,7 +20,7 @@ A RESTful e-commerce shopping cart API built with Spring Boot and MySQL. This po
 
 Clone and navigate to project
 
-git clone https://github.com/yourusername/SpringFromScratch.git
+git clone https://github.com/SNatty98/SpringFromScratch.git
 
 cd SpringFromScratch
 
@@ -59,7 +59,7 @@ API runs at http://localhost:9193
 # Roadmap
 Future enhancements planned:
 
-- User authentication (Spring Security)
+- User authentication
 - Order processing
 - Deploy using Docker
 - Showcase Postman collections
