@@ -48,6 +48,12 @@ mvn spring-boot:run
 
 API runs at http://localhost:9193
 
+# Postman Testing
+
+To be continuously updated until the project is complete:
+
+[Postman](https://web.postman.co/workspace/My-Workspace~6ab18c9c-00d7-4254-8302-a91143db6b85/collection/18955773-e7964239-facc-4961-a1bf-dc6a7bd55810?action=share&source=copy-link&creator=18955773)
+
 # Key Highlights
 
 - Smart cart logic - Automatically merges duplicate products and recalculates totals
